@@ -18,11 +18,11 @@ class CreateContactsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->string('family');
-            $table->string('company');
-            $table->string('jobtitle');
-            $table->string('address');
-            $table->date('birthday');
-            $table->mediumText('note');
+            $table->string('company')->nullable();
+            $table->string('jobtitle')->nullable();
+            $table->string('address')->nullable();
+            $table->date('birthday')->nullable();
+            $table->mediumText('note')->nullable();
             $table->timestamps();
         });
     }

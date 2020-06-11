@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contact;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -34,7 +35,16 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'name'=>'required',
+            'family'=>'required'
+        ]);
+
+
+        $contact = Contact::create(array_merge($request->only('name','family','company','jobtitle','address'
+        ,'birthday','note'),['user_id'=>auth()->id()]));
+
+        return redirect(route('contact.show',$contact));
     }
 
     /**
@@ -43,9 +53,9 @@ class ContactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Contact $contact)
     {
-        //
+        return view('contact.show',compact($contact));
     }
 
     /**
