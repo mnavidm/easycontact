@@ -65,6 +65,7 @@
 
                         @foreach($contact->phones as $phone)
                             <hr>
+                            <strong>Phones</strong><br>
                             <div style="float: right">
                                 <form method="Post" action="{{route('phone.destroy',[$contact,$phone])}}">
                                     @csrf
@@ -74,6 +75,20 @@
                             </div>
                             {{$phone->name}}<br>
                             {{$phone->phone}}<br>
+                        @endforeach
+                        <br><br>
+                        @foreach($contact->emails as $email)
+                            <hr>
+                            <strong>Emails</strong><br>
+                            <div style="float: right">
+                                <form method="Post" action="{{route('email.destroy',[$contact,$email])}}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                            {{$email->name}}<br>
+                            {{$email->email}}<br>
                         @endforeach
                         <br><br>
                         <form method="post" action="{{route('phone.store',$contact)}}"
@@ -88,6 +103,22 @@
                                 <label>Phone Number</label>
                                 <input type="text" class="form-control" id="phone" name="phone"
                                        placeholder="Enter phone number" value="{{old('phone')}}">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Contact</button>
+                        </form>
+                        <br><br>
+                        <form method="post" action="{{route('email.store',$contact)}}"
+                              enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label>Email title</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                       placeholder="Enter email title" value="{{old('name')}}">
+                            </div>
+                            <div class="form-group">
+                                <label>Email address</label>
+                                <input type="text" class="form-control" id="email" name="email"
+                                       placeholder="Enter email address" value="{{old('email')}}">
                             </div>
                             <button type="submit" class="btn btn-primary">Add Contact</button>
                         </form>

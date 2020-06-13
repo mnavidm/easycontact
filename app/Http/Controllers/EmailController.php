@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Contact;
+use App\Email;
 use Illuminate\Http\Request;
 
 class EmailController extends Controller
@@ -32,9 +34,15 @@ class EmailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Contact $contact)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email']);
+
+        $contact->emails()->create($request->only('name','email'));
+
+        return redirect(route('contact.show',$contact));
     }
 
     /**
@@ -77,8 +85,9 @@ class EmailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Contact $contact,Email $email)
     {
-        //
+        $email->delete();
+        return redirect(route('contact.show',$contact));
     }
 }
