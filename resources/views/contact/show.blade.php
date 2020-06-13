@@ -30,11 +30,18 @@
                         </table>
                         @foreach($contact->phones as $phone)
                             <hr>
+                            <div style="float: right">
+                                <form method="Post" action="{{route('phone.destroy',[$contact,$phone])}}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
                             {{$phone->name}}<br>
                             {{$phone->phone}}<br>
                         @endforeach
                         <br><br>
-                        <form method="post" action="{{route('contact.store')}}"  enctype="multipart/form-data">
+                        <form method="post" action="{{route('phone.store',$contact)}}"  enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label >Phone</label>

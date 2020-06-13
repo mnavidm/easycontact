@@ -23,6 +23,6 @@ Route::resource('/contact','ContactController');
 
 Route::prefix('/contact/{contact}')->group(function () {
 
-    Route::resource('phone', 'PhotoController');
+    Route::resource('phone', 'PhoneController');
 
 });
