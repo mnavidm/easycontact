@@ -30,15 +30,15 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'name'=>'required',
-            'family'=>'required',
-            'avatar'=>'image'
+        $this->validate($request, [
+            'name' => 'required',
+            'family' => 'required',
+            'avatar' => 'image'
         ]);
 
         $filenameWithExtension = $request->file('avatar')->getClientOriginalName();
@@ -52,50 +52,78 @@ class ContactController extends Controller
 
         $request->file('avatar')->storeAs('public/avatars', $filenameToStore);
 
-        $contact = Contact::create(array_merge($request->only('name','family','company','jobtitle','address'
-        ,'birthday','note'),['user_id'=>auth()->id()],['avatar'=>$filenameToStore]));
+        $contact = Contact::create(array_merge($request->only('name', 'family', 'company', 'jobtitle', 'address'
+            , 'birthday', 'note'), ['user_id' => auth()->id()], ['avatar' => $filenameToStore]));
 
-        return redirect(route('contact.show',$contact));
+        return redirect(route('contact.show', $contact));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Contact $contact)
     {
-        return view('contact.show',compact('contact'));
+        return view('contact.show', compact('contact'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Contact $contact)
     {
-        //
+        return view("contact.edit", compact('contact'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Contact $contact)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'family' => 'required',
+            'avatar' => 'image'
+        ]);
+
+        if ($request['avatar'] != null) {
+            $filenameWithExtension = $request->file('avatar')->getClientOriginalName();
+
+            $filename = pathinfo($filenameWithExtension, PATHINFO_FILENAME);
+
+            $extension = $request->file('avatar')->getClientOriginalExtension();
+
+            $filenameToStore = $filename . '_' . time() . '.' . $extension;
+
+
+            $request->file('avatar')->storeAs('public/avatars', $filenameToStore);
+
+            //Delete old file ?
+
+            $contact->update(array_merge($request->only('name', 'family', 'company', 'jobtitle', 'address'
+                , 'birthday', 'note'), ['avatar' => $filenameToStore]));
+        } else {
+            $contact->update($request->only('name', 'family', 'company', 'jobtitle', 'address'
+                , 'birthday', 'note'));
+        }
+
+
+        return redirect(route('contact.show', $contact));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
