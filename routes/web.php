@@ -25,4 +25,6 @@ Route::prefix('/contact/{contact}')->group(function () {
 
     Route::resource('phone', 'PhoneController');
 
+    Route::resource('email', 'EmailController');
+
 });
