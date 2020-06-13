@@ -23,6 +23,7 @@ class CreateContactsTable extends Migration
             $table->string('address')->nullable();
             $table->date('birthday')->nullable();
             $table->mediumText('note')->nullable();
+            $table->string('avatar')->nullable();
             $table->timestamps();
         });
     }

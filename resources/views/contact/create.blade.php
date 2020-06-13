@@ -17,7 +17,7 @@
                     <div class="card-header">Add Contact</div>
 
                     <div class="card-body">
-                        <form method="post" action="{{route('contact.store')}}">
+                        <form method="post" action="{{route('contact.store')}}"  enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label >Name</label>
@@ -44,8 +44,12 @@
                                 <input type="text" class="form-control" id="birthday" name="birthday" placeholder="Enter birthday" value="{{old('birthday')}}">
                             </div>
                             <div class="form-group">
-                                <label >Birthday</label>
+                                <label >Note</label>
                                 <input type="text" class="form-control" id="note" name="note" placeholder="Enter note" value="{{old('note')}}">
+                            </div>
+                            <div class="form-group">
+                                <label >Avatar</label>
+                                <input type="file"  class="form-control"  name="avatar" id="avatar">
                             </div>
 
                             <button type="submit" class="btn btn-primary">Add Contact</button>

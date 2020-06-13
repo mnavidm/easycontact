@@ -37,12 +37,23 @@ class ContactController extends Controller
     {
         $this->validate($request,[
             'name'=>'required',
-            'family'=>'required'
+            'family'=>'required',
+            'avatar'=>'image'
         ]);
 
+        $filenameWithExtension = $request->file('avatar')->getClientOriginalName();
+
+        $filename = pathinfo($filenameWithExtension, PATHINFO_FILENAME);
+
+        $extension = $request->file('avatar')->getClientOriginalExtension();
+
+        $filenameToStore = $filename . '_' . time() . '.' . $extension;
+
+
+        $request->file('avatar')->storeAs('public/avatars', $filenameToStore);
 
         $contact = Contact::create(array_merge($request->only('name','family','company','jobtitle','address'
-        ,'birthday','note'),['user_id'=>auth()->id()]));
+        ,'birthday','note'),['user_id'=>auth()->id()],['avatar'=>$filenameToStore]));
 
         return redirect(route('contact.show',$contact));
     }

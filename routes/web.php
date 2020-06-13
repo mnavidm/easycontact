@@ -20,3 +20,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/contact','ContactController');
+
+Route::prefix('/contact/{contact}')->group(function () {
+
+    Route::resource('phone', 'PhotoController');
+
+});
