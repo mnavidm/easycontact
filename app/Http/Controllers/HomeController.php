@@ -28,4 +28,12 @@ class HomeController extends Controller
 
         return view('home',compact('contacts'));
     }
+
+    public function name()
+    {
+
+        $contacts = Contact::all()->sortByDesc("name");
+
+        return view('home',compact('contacts'));
+    }
 }

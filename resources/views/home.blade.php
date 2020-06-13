@@ -14,8 +14,15 @@
                             </div>
                         @endif
 
+                        <div>
+                            <a href="{{route('homeOrdername')}}" class="btn btn-outline-secondary">Order by name</a>
+                        </div>
+                        <br>
+
                         @foreach($contacts as $contact)
-                            <a href="{{route('contact.show',[$contact])}}"><img src="/storage/avatars/{{$contact->avatar}}" width="50px" height="50px"> &nbsp; &nbsp; &nbsp; {{$contact->name}} {{$contact->family}}</a><br><br>
+                            <a href="{{route('contact.show',[$contact])}}"><img
+                                    src="/storage/avatars/{{$contact->avatar}}" width="50px" height="50px"> &nbsp;
+                                &nbsp; &nbsp; {{$contact->name}} {{$contact->family}}</a><br><br>
                         @endforeach
                     </div>
                 </div>

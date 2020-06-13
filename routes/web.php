@@ -28,3 +28,5 @@ Route::prefix('/contact/{contact}')->group(function () {
     Route::resource('email', 'EmailController');
 
 });
+
+Route::get('/home/name','HomeController@name')->name('homeOrdername');
