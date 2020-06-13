@@ -15,7 +15,7 @@
                         @endif
 
                         @foreach($contacts as $contact)
-                            <a href="{{route('contact.show',[$contact])}}"><img src="/storage/avatars/{{$contact->avatar}}" width="50px" height="50px">{{$contact->name}} {{$contact->family}}</a><br><br>
+                            <a href="{{route('contact.show',[$contact])}}"><img src="/storage/avatars/{{$contact->avatar}}" width="50px" height="50px"> &nbsp; &nbsp; &nbsp; {{$contact->name}} {{$contact->family}}</a><br><br>
                         @endforeach
                     </div>
                 </div>

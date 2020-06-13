@@ -41,16 +41,19 @@ class ContactController extends Controller
             'avatar' => 'image'
         ]);
 
-        $filenameWithExtension = $request->file('avatar')->getClientOriginalName();
+        $filenameToStore = "";
+        if ($request['avatar'] != null) {
+            $filenameWithExtension = $request->file('avatar')->getClientOriginalName();
 
-        $filename = pathinfo($filenameWithExtension, PATHINFO_FILENAME);
+            $filename = pathinfo($filenameWithExtension, PATHINFO_FILENAME);
 
-        $extension = $request->file('avatar')->getClientOriginalExtension();
+            $extension = $request->file('avatar')->getClientOriginalExtension();
 
-        $filenameToStore = $filename . '_' . time() . '.' . $extension;
+            $filenameToStore = $filename . '_' . time() . '.' . $extension;
 
 
-        $request->file('avatar')->storeAs('public/avatars', $filenameToStore);
+            $request->file('avatar')->storeAs('public/avatars', $filenameToStore);
+        }
 
         $contact = Contact::create(array_merge($request->only('name', 'family', 'company', 'jobtitle', 'address'
             , 'birthday', 'note'), ['user_id' => auth()->id()], ['avatar' => $filenameToStore]));
@@ -126,8 +129,9 @@ class ContactController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Contact $contact)
     {
-        //
+        $contact->delete();
+        return redirect(route('home'));
     }
 }
